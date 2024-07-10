@@ -1,0 +1,55 @@
+Mplus code:
+
+title: Social Monetary RewP ;
+ 
+data: file is
+  /Users/connorlawhead/Documents/Stony_Brook/social_monetary_RewP/240406_data_final.csv;
+
+variable: names = id Win Loss Accept Reject Dislike Like 
+Doors_RewP IG_RewP Social_RewP
+res_Doors_RewP res_IG_RewP res_Social_RewP mone_lossres ig_lossres social_lossres
+win10 loss13 like10 dislike13 accept10 reject13;
+IDVARIABLE is id;
+missing ARE .;
+usevariables = id Win Loss Accept Reject Dislike Like 
+Doors_RewP IG_RewP Social_RewP res_Doors_RewP res_IG_RewP
+res_Social_RewP mone_lossres ig_lossres social_lossres
+win10 loss13 like10 dislike13 accept10 reject13;
+
+analysis: estimator=mlr;
+
+model:
+Win with Loss;
+Accept with Reject;
+Like with Dislike;
+
+res_Social_RewP WITH res_Doors_RewP;
+res_IG_RewP WITH res_Doors_RewP;
+res_Social_RewP WITH res_IG_RewP;
+
+mone_lossres ON social_lossres;
+ig_lossres ON social_lossres;
+ig_lossres WITH mone_lossres;
+
+Win with Accept;
+Win with Like;
+Accept with Like;
+
+Loss with Reject;
+Loss with Dislike;
+Reject with Dislike;
+
+Doors_RewP with IG_RewP;
+Doors_RewP with Social_RewP;
+IG_RewP with Social_RewP;
+
+accept10 with win10;
+like10 with win10;
+like10 WITH accept10;
+
+reject13 with loss13;
+dislike13 with loss13;
+reject13 with dislike13;
+
+
+output: stdyx cinterval;
